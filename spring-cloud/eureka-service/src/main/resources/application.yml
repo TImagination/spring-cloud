@@ -1,0 +1,15 @@
+server:
+  port: 8761
+spring:
+  application:
+    name: eureak-service
+  profiles:
+    active: docker
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eurekaservice:8761/eureka
+    register-with-eureka: false
+    fetch-registry: false
+
+

@@ -1,0 +1,42 @@
+version: "3" # docker-compose 版本
+services:  # 服务
+  eureka-service:  # 定义eureka-service 名字随意
+      container_name: eureka-container  # 指定容器名 随意
+      build:
+         context: . # dockerfile 文件所在路径  点 指的是 dockerfile 文件在当前docker-compose.yml所在目录下
+         dockerfile: dockerfile-eureka  # dockerfile 文件名
+      image: eureka-service:v1  # 指定生成的镜像名 并打上tag 标签 v1
+    #  hostname: eurekahost   # 容器hostname
+      ports:
+        - "8761:8761"   # 暴露容器端口到主机
+
+
+  busines-service:
+        container_name: busines-container
+        build:
+          context: .
+          dockerfile: dockerfile-business
+        image: busines-service:v1
+        ports:
+          -  "8020:8020"
+        depends_on: # 当前容器依赖于eureka 容器 ,当前容器会在 eureka-service 容器启动后执行
+          -  eureka-service
+        links:  # 链接 注册到eureka   eurekaservice 我会在下面说明
+          -  "eureka-service:eurekaservice"
+
+
+  admin-service:
+      container_name: admin-container
+      build:
+        context: .
+        dockerfile: dockerfile-admin
+      image: admin-service:v1
+      ports:
+        - "8080:8080"
+      depends_on: # 当前容器依赖于以上两个容器
+        - eureka-service
+        - busines-service
+
+      links:
+        - "eureka-service:eurekaservice"
+        - "busines-service"

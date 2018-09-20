@@ -1,0 +1,14 @@
+server:
+  port: 7070
+spring:
+  application:
+    name: business-service
+  profiles:
+    active: docker
+eureka:
+  client:
+    service-url:
+       defaultZone: http://eurekaservice:8761/eureka
+  instance:
+    prefer-ip-address: true
+

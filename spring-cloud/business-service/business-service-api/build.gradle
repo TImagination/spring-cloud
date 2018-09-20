@@ -1,0 +1,11 @@
+bootJar{
+    enabled = false
+}
+jar {
+    enabled = true
+}
+dependencies {
+    compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
+    compile('org.springframework.cloud:spring-cloud-starter-openfeign')
+    compile('org.springframework.cloud:spring-cloud-starter-netflix-hystrix')
+}

@@ -1,0 +1,54 @@
+buildscript {
+    repositories {
+        maven {url 'http://maven.aliyun.com/nexus/content/groups/public'}
+        mavenLocal()
+        mavenCentral()
+    }
+    ext {
+        springBootVersion = '2.0.5.RELEASE'
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath 'io.spring.gradle:dependency-management-plugin:1.0.0.RELEASE'
+    }
+}
+
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    buildscript{
+        repositories {
+            maven {
+                url 'http://maven.aliyun.com/nexus/content/groups/public'
+            }
+            mavenLocal()
+            mavenCentral()
+        }
+        dependencyManagement {
+            imports {
+                mavenBom "org.springframework.cloud:spring-cloud-dependencies:Finchley.RELEASE"
+                mavenBom 'org.springframework.cloud:spring-cloud-netflix:2.0.0.RELEASE'
+            }
+        }
+    }
+    repositories {
+        maven {
+            url 'http://maven.aliyun.com/nexus/content/groups/public'
+        }
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:Finchley.RELEASE"
+            mavenBom 'org.springframework.cloud:spring-cloud-netflix:2.0.0.RELEASE'
+            mavenBom 'io.spring.platform:platform-bom:Cairo-SR2'
+        }
+    }
+}

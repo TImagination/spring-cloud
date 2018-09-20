@@ -1,0 +1,13 @@
+# 依赖的java版本
+FROM java:8
+# 在容器中创建工作目录
+RUN mkdir /app
+# 指定工作目录
+WORKDIR /app
+#将你本机docker-home 目录下的 admin-service.jar ADD 到 容器 工作目录下并命名为 app.jar (不重命名也行)
+ADD admin-service.jar  /app/app.jar
+# 执行环境 其中-Djava.security.egd=file:/dev/./urandom 是JVM 熵池 参数，想了解的可百度
+# --spring.profiles.active=default 是springcloud 配置文件 application.yml文件配置项，当有多个application.yml时用来指定加载哪个配置文件
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app/app.jar","--spring.profiles.active=default"]
+# 开放8080端口
+EXPOSE 8080
